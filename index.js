@@ -39,6 +39,13 @@ async function run() {
             projects.insertOne(data);
             res.send("Projects Added");
         });
+        app.get("/allprojects/:category", async (req, res) => {
+            const projectCategory = req.params.category;
+            const query = { projectCategory };
+            const result = await projects.find(query).toArray();
+            res.send(result)
+        });
+
     } finally {
         // await client.close();
     }
