@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 app.use(cors());
 app.use(express.json());
@@ -43,6 +43,12 @@ async function run() {
             const projectCategory = req.params.category;
             const query = { projectCategory };
             const result = await projects.find(query).toArray();
+            res.send(result)
+        });
+        app.get("/singleproject/:projectId", async (req, res) => {
+            const id = req.params.projectId;
+            const query = { _id: new ObjectId(id) };
+            const result = await projects.findOne(query);
             res.send(result)
         });
 
